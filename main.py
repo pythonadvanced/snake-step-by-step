@@ -9,6 +9,7 @@ from pygame.locals import *
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+YELLOW = (255, 255, 0)
 
 # la taille du jeu en nombre de cellules
 BOARD_SIZE = (10, 10)
@@ -35,9 +36,11 @@ screen = pygame.display.set_mode((BOARD_WIDTH*CELL_WIDTH, BOARD_HEIGHT*CELL_HEIG
 # on met le fond en noir
 screen.fill(BLACK)
 snake = [(1, 2), (2, 2), (3, 2)]
+egg = (5, 5)
 
 for pos in snake:
     draw_cell(*pos)
+draw_cell(*egg, YELLOW)
 pygame.display.update()
 
 
