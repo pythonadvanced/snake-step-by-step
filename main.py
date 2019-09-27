@@ -39,14 +39,23 @@ clock = pygame.time.Clock()
 snake = [(1, 2), (2, 2), (3, 2)]
 egg = (5, 5)
 
+
 def move_snake(dx, dy):
-    # on enleve l'ancienne queue
-    snake.pop(0)
-    # on rajoute la nouvelle tête
     x, y = snake[-1]
     new_head = ( (x+dx) % BOARD_WIDTH, (y+dy) % BOARD_HEIGHT )
-    snake.append(new_head)
+    allowed = True
+    if len(snake) >= 2:
+        if new_head == snake[-2]:
+            allowed = False
+    if allowed:
+        # remove tail
+        snake.pop(0)
+        # add new head
+        snake.append(new_head)
+    else:
+        print(f"move to {new_head} is not allowed")
 
+  
 def redraw():
     screen.fill(BLACK)
     for pos in snake:
