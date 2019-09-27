@@ -3,6 +3,7 @@
 import sys
 import pygame
 from itertools import product
+from random import randrange
 
 from pygame.locals import *
 
@@ -26,6 +27,12 @@ def draw_cell(board_x, board_y, color=WHITE):
         screen_coords = screen_x + x, screen_y + y
         screen.set_at(screen_coords, color)
 
+
+def random_egg(snake):
+    new_egg = randrange(BOARD_WIDTH), randrange(BOARD_HEIGHT)
+    return new_egg if new_egg not in snake else random_egg(snake)
+
+
 # on doit "initialiser" PyGame
 pygame.init()
 
@@ -37,7 +44,7 @@ clock = pygame.time.Clock()
 
 # on met le fond en noir
 snake = [(1, 2), (2, 2), (3, 2)]
-egg = (5, 5)
+egg = random_egg(snake)
 
 
 def move_snake(dx, dy):
