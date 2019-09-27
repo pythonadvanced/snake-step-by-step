@@ -33,6 +33,8 @@ pygame.init()
 # qui cette fois-ci dépend des tailles
 screen = pygame.display.set_mode((BOARD_WIDTH*CELL_WIDTH, BOARD_HEIGHT*CELL_HEIGHT))
 
+clock = pygame.time.Clock()
+
 # on met le fond en noir
 screen.fill(BLACK)
 snake = [(1, 2), (2, 2), (3, 2)]
@@ -50,7 +52,10 @@ pygame.display.update()
 running = True
 while running:
     for event in pygame.event.get():
-        print('.', end='', flush=True)
+        # grâce à l'horloge on peut accéder au temps 
+        # entre deux événements, en millisecondes
+        duration = clock.tick()
+        print(f'{duration:d}|', end='', flush=True)
         if event.type == pygame.QUIT:
             running = False   
         elif event.type == pygame.KEYDOWN and event.key == K_q:
