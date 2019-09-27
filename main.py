@@ -10,6 +10,12 @@ pygame.init()
 # et définir la taille de la fenêtre (400x400)
 screen = pygame.display.set_mode((400, 400))
 
+BLACK = (0, 0, 0)
+
+# on met le fond en noir
+screen.fill(BLACK)
+pygame.display.update()
+
 # une façon d'écrire la boucle principale 
 # taper 'q' pour quitter
 while True:
