@@ -47,7 +47,7 @@ snake = [(1, 2), (2, 2), (3, 2)]
 egg = random_egg(snake)
 
 
-def move_snake(dx, dy):
+def move_snake(dx, dy, keep_first):
     x, y = snake[-1]
     new_head = ( (x+dx) % BOARD_WIDTH, (y+dy) % BOARD_HEIGHT )
     allowed = True
@@ -55,14 +55,21 @@ def move_snake(dx, dy):
         if new_head == snake[-2]:
             allowed = False
     if allowed:
-        # remove tail
-        snake.pop(0)
+        # enlever la queue sauf si on vient 
+        # de manger un oeuf
+        if not keep_first:
+            snake.pop(0)
         # add new head
         snake.append(new_head)
     else:
         print(f"move to {new_head} is not allowed")
 
   
+def can_eat(egg, dx, dy):
+    x, y = snake[-1]
+    return (x+dx, y+dy) == egg
+
+
 def redraw():
     screen.fill(BLACK)
     for pos in snake:
@@ -101,8 +108,10 @@ while running:
     time_since_last_update += clock.tick()
     if time_since_last_update >= 200:
         time_since_last_update = 0
-        move_snake(dx, dy)
-    # on redessine toujours à la même fréquence
+        eaten = can_eat(egg, dx, dy)
+        move_snake(dx, dy, eaten)
+        if eaten:
+            egg = random_egg(snake)
     redraw()
         
 
