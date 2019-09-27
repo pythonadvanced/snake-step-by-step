@@ -48,6 +48,10 @@ egg = random_egg(snake)
 
 
 def move_snake(dx, dy, keep_first):
+    """
+    return True if all is OK, 
+    False if snake is walking on itself
+    """
     x, y = snake[-1]
     new_head = ( (x+dx) % BOARD_WIDTH, (y+dy) % BOARD_HEIGHT )
     allowed = True
@@ -61,12 +65,12 @@ def move_snake(dx, dy, keep_first):
             snake.pop(0)
         # check for loops
         if new_head in snake:
-            print("Game over")
-            sys.exit()
+            return False
         # add new head
         snake.append(new_head)
     else:
         print(f"move to {new_head} is not allowed")
+    return True
 
   
 def can_eat(egg, dx, dy):
@@ -113,7 +117,8 @@ while running:
     if time_since_last_update >= 200:
         time_since_last_update = 0
         eaten = can_eat(egg, dx, dy)
-        move_snake(dx, dy, eaten)
+        if not move_snake(dx, dy, eaten):
+            running = False
         if eaten:
             egg = random_egg(snake)
     redraw()
