@@ -34,7 +34,10 @@ screen = pygame.display.set_mode((BOARD_WIDTH*CELL_WIDTH, BOARD_HEIGHT*CELL_HEIG
 
 # on met le fond en noir
 screen.fill(BLACK)
-draw_cell(2, 5)
+snake = [(1, 2), (2, 2), (3, 2)]
+
+for pos in snake:
+    draw_cell(*pos)
 pygame.display.update()
 
 
