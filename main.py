@@ -59,6 +59,10 @@ def move_snake(dx, dy, keep_first):
         # de manger un oeuf
         if not keep_first:
             snake.pop(0)
+        # check for loops
+        if new_head in snake:
+            print("Game over")
+            sys.exit()
         # add new head
         snake.append(new_head)
     else:
