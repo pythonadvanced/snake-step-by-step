@@ -37,10 +37,19 @@ screen.fill(BLACK)
 draw_cell(2, 5)
 pygame.display.update()
 
-# une façon d'écrire la boucle principale 
-# taper 'q' pour quitter
-while True:
-    for event in pygame.event.get(KEYDOWN):
-        print(f"received event {event.key}")
-        if event.key == K_q: # pygame.locals.K_q
-            sys.exit() # quitte le programme
+
+# on améliore un peu la boucle principale
+# on peut sortir avec 'q' ou avec le bouton qui ferme la fenêtre
+# ça nous permet aussi de voir quand on reçoit des événements
+running = True
+while running:
+    for event in pygame.event.get():
+        print('.', end='', flush=True)
+        if event.type == pygame.QUIT:
+            running = False   
+        elif event.type == pygame.KEYDOWN and event.key == K_q:
+            running = False
+
+# comme on ne sort plus brutalement avec exit()
+# le programme continue après la boucle principale
+print("\nGame over")
