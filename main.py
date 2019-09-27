@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import sys
 import pygame
 from pygame.locals import *
@@ -10,7 +12,6 @@ screen = pygame.display.set_mode((400, 400))
 
 # une façon d'écrire la boucle principale 
 # taper 'q' pour quitter
-
 while True:
     for event in pygame.event.get(KEYDOWN):
         print(f"received event {event.key}")
