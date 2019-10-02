@@ -61,21 +61,23 @@ redraw()
 # on améliore un peu la boucle principale
 # on peut sortir avec 'q' ou avec le bouton qui ferme la fenêtre
 # ça nous permet aussi de voir quand on reçoit des événements
+time_since_last_update = 0
+
 running = True
 while running:
     for event in pygame.event.get():
-        # grâce à l'horloge on peut accéder au temps 
-        # entre deux événements, en millisecondes
-        duration = clock.tick()
-        print(f'{duration:d}|', end='', flush=True)
         if event.type == pygame.QUIT:
             running = False   
         elif event.type == pygame.KEYDOWN and event.key == K_q:
             running = False
+    # grâce à l'horloge on peut accéder au temps 
+    # entre deux événements, en millisecondes
+    time_since_last_update += clock.tick()
+    if time_since_last_update >= 200:
+        time_since_last_update = 0
         move_snake()
-        # le serpent bouge
-        # il faut le redessiner
-        redraw()
+    # on redessine toujours à la même fréquence
+    redraw()
         
 
 # comme on ne sort plus brutalement avec exit()
