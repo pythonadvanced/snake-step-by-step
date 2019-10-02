@@ -39,9 +39,7 @@ clock = pygame.time.Clock()
 snake = [(1, 2), (2, 2), (3, 2)]
 egg = (5, 5)
 
-dx, dy = 1, 0
-
-def move_snake():
+def move_snake(dx, dy):
     # on enleve l'ancienne queue
     snake.pop(0)
     # on rajoute la nouvelle tête
@@ -64,6 +62,8 @@ redraw()
 time_since_last_update = 0
 
 running = True
+dx, dy = 1, 0
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -75,7 +75,7 @@ while running:
     time_since_last_update += clock.tick()
     if time_since_last_update >= 200:
         time_since_last_update = 0
-        move_snake()
+        move_snake(dx, dy)
     # on redessine toujours à la même fréquence
     redraw()
         
