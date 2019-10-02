@@ -36,14 +36,12 @@ screen = pygame.display.set_mode((BOARD_WIDTH*CELL_WIDTH, BOARD_HEIGHT*CELL_HEIG
 clock = pygame.time.Clock()
 
 # on met le fond en noir
-screen.fill(BLACK)
 snake = [(1, 2), (2, 2), (3, 2)]
 egg = (5, 5)
 
 dx, dy = 1, 0
 
 def move_snake():
-    print(dx, dy)
     # on enleve l'ancienne queue
     snake.pop(0)
     # on rajoute la nouvelle tête
@@ -51,11 +49,14 @@ def move_snake():
     new_head = ( (x+dx) % BOARD_WIDTH, (y+dy) % BOARD_HEIGHT )
     snake.append(new_head)
 
-for pos in snake:
-    draw_cell(*pos)
-draw_cell(*egg, YELLOW)
-pygame.display.update()
+def redraw():
+    screen.fill(BLACK)
+    for pos in snake:
+        draw_cell(*pos)
+    draw_cell(*egg, YELLOW)
+    pygame.display.update()
 
+redraw()
 
 # on améliore un peu la boucle principale
 # on peut sortir avec 'q' ou avec le bouton qui ferme la fenêtre
@@ -73,7 +74,9 @@ while running:
             running = False
         move_snake()
         # le serpent bouge
-        print(snake)
+        # il faut le redessiner
+        redraw()
+        
 
 # comme on ne sort plus brutalement avec exit()
 # le programme continue après la boucle principale
