@@ -40,6 +40,17 @@ screen.fill(BLACK)
 snake = [(1, 2), (2, 2), (3, 2)]
 egg = (5, 5)
 
+dx, dy = 1, 0
+
+def move_snake():
+    print(dx, dy)
+    # on enleve l'ancienne queue
+    snake.pop(0)
+    # on rajoute la nouvelle tête
+    x, y = snake[-1]
+    new_head = ( (x+dx) % BOARD_WIDTH, (y+dy) % BOARD_HEIGHT )
+    snake.append(new_head)
+
 for pos in snake:
     draw_cell(*pos)
 draw_cell(*egg, YELLOW)
@@ -60,6 +71,9 @@ while running:
             running = False   
         elif event.type == pygame.KEYDOWN and event.key == K_q:
             running = False
+        move_snake()
+        # le serpent bouge
+        print(snake)
 
 # comme on ne sort plus brutalement avec exit()
 # le programme continue après la boucle principale
