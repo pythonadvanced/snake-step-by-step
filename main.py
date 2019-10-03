@@ -1,18 +1,37 @@
-import sys
-import pygame
-from pygame.locals import *
+#!/usr/bin/env python
+import re
+from argparse import ArgumentParser, ArgumentTypeError
+from typing import Tuple
 
-# on doit "initialiser" PyGame
-pygame.init()
+from snake import Game
 
-# et définir la taille de la fenêtre (400x400)
-screen = pygame.display.set_mode((400, 400))
+Size = Tuple[int, int]
+SIZE_REGEXP = re.compile(r'\A(\d+)x(\d+)\Z')
 
-# une façon d'écrire la boucle principale 
-# taper 'q' pour quitter
 
-while True:
-    for event in pygame.event.get(KEYDOWN):
-        print(f"received event {event.key}")
-        if event.key == K_q: # pygame.locals.K_q
-            sys.exit() # quitte le programme
+def parse_cli_args():
+    parser = ArgumentParser()
+    parser.add_argument(
+        "-b", "--board-size", default=(20, 20), type=_parse_size,
+        help="Size of the board, in cells, defaults to 20x20")
+    parser.add_argument(
+        "-c", "--cell-size", default=(30, 30), type=_parse_size,
+        help="Size of the board, in pixels, defaults to 30x30")
+    args = parser.parse_args()
+    return args.board_size, args.cell_size
+
+
+def _parse_size(s: str) -> Size:
+    match = SIZE_REGEXP.match(s)
+    if not match:
+        raise ArgumentTypeError("Invalid size")
+    return (
+        int(match.group(1)),
+        int(match.group(2)),
+    )
+
+
+if __name__ == "__main__":
+    board_size, cell_size = parse_cli_args()
+    game = Game(board_size, cell_size)
+    game.run()
